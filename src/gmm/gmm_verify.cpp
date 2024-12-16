@@ -25,7 +25,8 @@ float verify(const GMM &gmm_candidate, const fmatrix &dat)
 {
 
 	//TODO: implement verification score based on gmm of the candidate
-	float score = 0.0F;
+	/// \FET Hem implementat la verificació de la puntuació basada en el gmm del candidat
+	float score = gmm_candidate.logprob(dat);
 
 	return score;
 }
@@ -39,9 +40,14 @@ float verify(const GMM &gmm_candidate, const GMM & gmm_world, const fmatrix &dat
 	  lprobcand is an informative values to be printed as debug information.
 	  The decision is based on the returned value
 	 */
+	/// \FET hem implementat la puntuació de verificació basada en el gmm del candidat i el model 'world'
 	float score = 0.0F;
 	lprobcand = 0.0F;
 	lprobbackground = 0.0F;
+
+	lprobcand = gmm_candidate.logprob(dat);
+	lprobbackground = gmm_world.logprob(dat);
+	score = lprobcand - lprobbackground;
 
 	return score;
 
