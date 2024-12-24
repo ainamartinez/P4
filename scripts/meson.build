@@ -6,6 +6,7 @@ scripts = [
     'spk_verif_score.pl',
     'wav2lp.sh',
     'wav2lpcc.sh',
+    'wav2mfcc.sh',
 ]
 
 foreach script: scripts

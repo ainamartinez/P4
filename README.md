@@ -29,14 +29,34 @@ ejercicios indicados.
 
 ### SPTK, Sox y los scripts de extracción de características.
 
-- Analice el script `wav2lp.sh` y explique la misión de los distintos comandos involucrados en el *pipeline*
-  principal (`sox`, `$X2X`, `$FRAME`, `$WINDOW` y `$LPC`). Explique el significado de cada una de las 
+- Analice el script `wav2lp.sh` y explique la misión de los distintos comandos involucrados en el *pipeline* principal (`sox`, `$X2X`, `$FRAME`, `$WINDOW` y `$LPC`). Explique el significado de cada una de las 
   opciones empleadas y de sus valores.
+  ``` bash 
+  sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WINDOW -l 240 -L 240 |
+	$LPC -l 240 -m $lpc_order > $base.lp || exit 1
+  ```
+  - **`sox`**: convierte el archivo de entrada en un flujo de datos en bruto (`raw`) con codificación de enteros con signo (`signed`) de 16 bits (`-b 16`).
+  - **`$X2X +sf`**: convierte los datos de entrada de formato de muestra (`+sf`) a un formato adecuado para el procesamiento posterior.
+  - **`$FRAME -l 240 -p 80`**: segmenta los datos en marcos de 240 muestras (`-l 240`) con un paso de 80 muestras (`-p 80`).
+  - **`$WINDOW -l 240 -L 240`**: aplica una ventana de 240 muestras (`-l 240`) con una longitud de ventana de 240 (`-L 240`).
+  - **`$LPC -l 240 -m $lpc_order`**: calcula los coeficientes de predicción lineal (LPC) con una longitud de 240 (`-l 240`) y un orden especificado por `$lpc_order` (`-m $lpc_order`).
 
-- Explique el procedimiento seguido para obtener un fichero de formato *fmatrix* a partir de los ficheros de
-  salida de SPTK (líneas 49 a 55 del script `wav2lp.sh`).
+- Explique el procedimiento seguido para obtener un fichero de formato *fmatrix* a partir de los ficheros de salida de SPTK (líneas 49 a 55 del script `wav2lp.sh`).
+  ``` bash
+  ncol=$((lpc_order + 1)) # lpc p =>  (gain a1 a2 ... ap) 
+  nrow=$(($($X2X +fa < $base.lp | wc -l) / ncol))
+
+  # Build fmatrix file by placing nrow and ncol in front, and the data after them
+  echo $nrow $ncol | $X2X +aI > $outputfile
+  cat $base.lp >> $outputfile
+  ```
+  - Primero, se calcula el número de columnas (`ncol`) como el orden de LPC más uno, ya que el archivo LPC contiene el valor de ganancia seguido de los coeficientes LPC.
+  - Luego, se calcula el número de filas (`nrow`) dividiendo el número total de valores en el archivo LPC por el número de columnas.
+    - FALTAN COSAS
+  - Finalmente, se construye el archivo *fmatrix* colocando `nrow` y `ncol` al principio, seguidos de los datos LPC.
 
   * ¿Por qué es más conveniente el formato *fmatrix* que el SPTK?
+    - El formato *fmatrix* es más conveniente porque incluye metadatos (número de filas y columnas) que facilitan la lectura y el procesamiento de los datos en etapas posteriores.
 
 - Escriba el *pipeline* principal usado para calcular los coeficientes cepstrales de predicción lineal
   (LPCC) en su fichero <code>scripts/wav2lpcc.sh</code>:
@@ -51,6 +71,27 @@ ejercicios indicados.
   
   + Indique **todas** las órdenes necesarias para obtener las gráficas a partir de las señales 
     parametrizadas.
+    ```bash
+    chmod +x scripts/wav2lpcc.sh
+    chmod +x scripts/wav2mfcc.sh
+    ```
+
+    ```bash
+    FEAT=lpcc ../bin/run_spkid lpcc
+    FEAT=mfcc ../bin/run_spkid mfcc
+    ```
+
+    ```bash
+    fmatrix_show work/lpcc/BLOCK01/SES017/*.lpcc | grep -E '^\[' | cut -f4,5 > ./plot_img/lpcc_2_3.txt
+    fmatrix_show work/lp/BLOCK01/SES017/*.lp | grep -E '^\[' | cut -f4,5 > ./plot_img/lp_2_3.txt
+    fmatrix_show work/mfcc/BLOCK01/SES017/*.mfcc | grep -E '^\[' | cut -f4,5 > ./plot_img/mfcc_2_3.txt
+    ```
+
+    Finalmente hemos generado un programa en python que crea las gráficas necesarias para ver la dependencia de los coeficientes llamado: [plot_coefficients.py](./plot_img/plot_coefficients.py) y obtenemos la siguientes imagenes: 
+
+    ![LP Coefficients 2 and 3](./plot_img/LP_2_3.png)
+    ![LPCC Coefficients 2 and 3](./plot_img/LPCC_2_3.png)
+    ![MFCC Coefficients 2 and 3](./plot_img/MFCC_2_3.png)
   + ¿Cuál de ellas le parece que contiene más información?
 
 - Usando el programa <code>pearson</code>, obtenga los coeficientes de correlación normalizada entre los
