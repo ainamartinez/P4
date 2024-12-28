@@ -83,7 +83,7 @@ compute_lp() {
     shift
     for filename in $(sort $*); do
 		mkdir -p $(dirname $w/$FEAT/$filename.$FEAT)
-        EXEC="wav2lp 8 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
+        EXEC="wav2lp 16 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
         echo $EXEC && $EXEC || exit 1
     done
 }
@@ -103,7 +103,7 @@ compute_mfcc() {
     shift
     for filename in $(sort $*); do
         mkdir -p $(dirname $w/$FEAT/$filename.$FEAT)
-        EXEC="wav2mfcc 8 13 24 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
+        EXEC="wav2mfcc 8 15 26 $db/$filename.wav $w/$FEAT/$filename.$FEAT"
         echo $EXEC && $EXEC || exit 1
     done
 }
@@ -162,7 +162,10 @@ for cmd in $*; do
        # Implement 'trainworld' in order to get a Universal Background Model for speaker verification
        #
        # - The name of the world model will be used by gmm_verify in the 'verify' command below.
-       echo "Implement the trainworld option ..."
+       # \FET trainworld implementado
+       #echo "Implement the trainworld option ..."
+       EXEC="gmm_train -v 1 -T 0.e-6 -N 60 -m 60 -d $w/$FEAT -e $FEAT -g $w/gmm/$FEAT/world.gmm $lists/class/all.train"
+       echo $EXEC && $EXEC || exit 1
 
    elif [[ $cmd == verify ]]; then
        ## @file
@@ -173,6 +176,7 @@ for cmd in $*; do
        #   For instance:
        #   * <code> gmm_verify ... > $LOG_VERIF </code>
        #   * <code> gmm_verify ... | tee $LOG_VERIF </code>
+       # \FET verify implementado
        EXEC="gmm_verify -d $w/$FEAT -e $FEAT -D $w/gmm/$FEAT -E gmm $lists/gmm.list $lists/verif/all.test $lists/verif/all.test.candidates"
        echo $EXEC && $EXEC | tee $LOG_VERIF || exit 1
                 
@@ -195,7 +199,11 @@ for cmd in $*; do
        #
        # El fichero con el resultado del reconocimiento debe llamarse $FINAL_CLASS, que deberá estar en el
        # directorio de la práctica (PAV/P4).
-       echo "To be implemented ..."
+       # \FET finalclass implementado
+       compute_$FEAT $db_test $lists/final/class.test
+       EXEC="gmm_classify -d $w/$FEAT -e $FEAT -D $w/gmm/$FEAT -E gmm $lists/gmm.list $lists/final/class.test"
+       echo $EXEC && $EXEC | tee $FINAL_CLASS || exit 1
+       #echo "To be implemented ..."
    
    elif [[ $cmd == finalverif ]]; then
        ## @file
@@ -214,6 +222,7 @@ for cmd in $*; do
        # candidato para la señal a verificar. En $FINAL_VERIF se pide que la tercera columna sea 1,
        # si se considera al candidato legítimo, o 0, si se considera impostor. Las instrucciones para
        # realizar este cambio de formato están en el enunciado de la práctica.
+       
        echo "To be implemented ..."
    
    # If the command is not recognize, check if it is the name
