@@ -144,7 +144,7 @@ Nota: puede encontrar el código necesario a partir de la [línea 131 de run_spk
   plot_gmm_feat -g blue -f blue  work/gmm/mfcc/SES107.gmm work/mfcc/BLOCK10/SES107/SA107S* &
   
   plot_gmm_feat -g blue -f purple  work/gmm/mfcc/SES107.gmm work/mfcc/BLOCK00/SES007/SA007S* &
-```
+  ```
 
 ### Reconocimiento del locutor.
 
@@ -167,9 +167,10 @@ DATA
 
 | verifyerr | THR  | Missed | FalseAlarm | CostDetection |
 |-----------|:----:|:------:|:----------:|:-------------:|
-| LP        | -6.55487232490078 |   $\frac{178}{250}=$0.7120   |     $\frac{13}{1000}=$0.0130      |     82.9      |
-| LPCC      | 15.7424866257925 |    $\frac{79}{250}=$0.3160   |     $\frac{16}{1000}=$0.0160     |     46      |
-| MFCC      | -38.1504078365051 |    $\frac{72}{250}=$0.2880   |     $\frac{19}{1000}=$0.0190      |     45.9      |
+| LP        | -6.55487232490078 |   $$\frac{178}{250}=0.7120$$   |     $$\frac{13}{1000}=0.0130$$      |     82.9      |
+| LPCC      | 15.7424866257925 |    $$\frac{79}{250}=0.3160$$   |     $$\frac{16}{1000}=0.0160$$     |     46      |
+| MFCC      | -38.1504078365051 |    $$\frac{72}{250}=0.2880$$   |     $$\frac{19}{1000}=0.0190$$      |     45.9      |
+
 ### Verificación del locutor.
 
 Complete el código necesario para realizar verificación del locutor y optimice sus parámetros.
