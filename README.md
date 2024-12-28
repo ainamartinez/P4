@@ -71,16 +71,18 @@ ejercicios indicados.
   
   + Indique **todas** las órdenes necesarias para obtener las gráficas a partir de las señales 
     parametrizadas.
+    
+    Hacemos los siguientes comandos oara poder ejecutar los scripts `wav2lpcc.sh` y `wav2mfcc.sh` des de la línea de comandos si especificar el intérpreste, en este caso, Bash.
     ```bash
     chmod +x scripts/wav2lpcc.sh
     chmod +x scripts/wav2mfcc.sh
     ```
-
+    Calculamos las preducciones con el `run_spkid` con su correspondiente feature (Lp, lpcc, mfcc)
     ```bash
     FEAT=lpcc ../bin/run_spkid lpcc
     FEAT=mfcc ../bin/run_spkid mfcc
     ```
-
+    Nos quedamos con los coeficientes 2 y 3 de lo que hemos generado anteriormente del locutor SES017 (siguiendo el ejemplo de la práctica)
     ```bash
     fmatrix_show work/lpcc/BLOCK01/SES017/*.lpcc | grep -E '^\[' | cut -f4,5 > ./plot_img/lpcc_2_3.txt
     fmatrix_show work/lp/BLOCK01/SES017/*.lp | grep -E '^\[' | cut -f4,5 > ./plot_img/lp_2_3.txt
@@ -93,25 +95,41 @@ ejercicios indicados.
     ![LPCC Coefficients 2 and 3](./plot_img/LPCC_2_3.png)
     ![MFCC Coefficients 2 and 3](./plot_img/MFCC_2_3.png)
   + ¿Cuál de ellas le parece que contiene más información?
-
+    
+    Como los gráficos ilustran la dependencia entre los coeficientes 2 y 3 de la parametrizaciones, si vemos una correlación entre los coeficientes implica que tener ambas nos aporta menos información.
+    Si analizamos los gráficos de arriba:
+      
+      1. **LP**: la nube de puntoss del gráfico está bastante alineada por lo tanto, mucha información tiene una dependencia linal y no vemos mucha información adicional.
+      2. **LPCC**: Este gráfico en cambio, tiene una distribución ddispersa, y implica que se trata de una parametrzacónque contiene más infrmación independiente entre los coeficientes. Por lo tanto, es mejor si buscamos características no relacionadas paara modelos.
+      3. **MFCC**: Este gráfico también es disperso pero un tanto más compacto y uniforme, por lo tanto, vemos una "mejor" distribución de l información
+    
+    A modo de conclusión el **MFCC** parece contener más información gracias a la baja correlación entre los coeficientes 2 y 3 y su distribución uniforme. 
 - Usando el programa <code>pearson</code>, obtenga los coeficientes de correlación normalizada entre los
   parámetros 2 y 3 para un locutor, y rellene la tabla siguiente con los valores obtenidos.
 
   |                        | LP   | LPCC | MFCC |
   |------------------------|:----:|:----:|:----:|
-  | &rho;<sub>x</sub>[2,3] |      |      |      |
+  | &rho;<sub>x</sub>[2,3] |-0.872284|0.150782|-0.135247|
   
   + Compare los resultados de <code>pearson</code> con los obtenidos gráficamente.
   
+    Vemos que LP tiene una correlación fuerte negativa, esto indica una relación lineal clara entre los coeficientes 2 y 3. Comparando con  l grafico vemos que muestra una nube de puntos bastante alineados, lo que implica que mucha información está contenida en esta dependencia lineal.
+    
+    Para LPCC encambio vemos una correlación baja positiva, lo qual indica que los coeficinetes 2 y 3 son casi independientes. En la grafica podemos ver una distribución má pero más uniforme y compacto. s dispersa, sugiriendo que esta parametrización contiene más información independiente entre los coeficientes.
+    
+    Para MFCC indica una correlación baja negativa, indicando asi indepencia entre los coeficientes. Vemos que coincide con el gráfico ya que es mmenos disperso que el LPCC 
 - Según la teoría, ¿qué parámetros considera adecuados para el cálculo de los coeficientes LPCC y MFCC?
-
+  Para los MFCC, se utiliza una ventana de 20 a 40 ms, una frecuencia de muestreo típica de 8 kHz, un banco de 24 a 40 filtros Mel, y los primeros 13 coeficientes cepstrales (aunque también pueden usarse los coeficientes del 13 al 20, siendo más común emplear 13). Además, se aplica la Transformada Discreta del Coseno (DCT) para compactar la energía espectral. Por otro lado, los LPCC se calculan a partir del modelo de predicción lineal (LPC), utilizando un orden de 10 a 16, una frecuencia de muestreo similar y ventanas de 20 a 40 ms. En este caso, también se seleccionan los primeros 12 a 16 coeficientes cepstrales, aplicando suavizado cepstral para evitar fluctuaciones abruptas.
 ### Entrenamiento y visualización de los GMM.
 
 Complete el código necesario para entrenar modelos GMM.
 
+Nota: puede encontrar el código necesario a partir de la [línea 131 de run_spkid.sh](./scripts/run_spkid.sh)
+
 - Inserte una gráfica que muestre la función de densidad de probabilidad modelada por el GMM de un locutor
   para sus dos primeros coeficientes de MFCC.
 
+  ![gráfca de la función de densidad de probabilidad del locutor SES007](./plot_img/gmm_mfcc_ses007.png)
 - Inserte una gráfica que permita comparar los modelos y poblaciones de dos locutores distintos (la gŕafica
   de la página 20 del enunciado puede servirle de referencia del resultado deseado). Analice la capacidad
   del modelado GMM para diferenciar las señales de uno y otro.
