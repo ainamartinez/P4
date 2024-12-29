@@ -52,7 +52,10 @@ ejercicios indicados.
   ```
   - Primero, se calcula el número de columnas (`ncol`) como el orden de LPC más uno, ya que el archivo LPC contiene el valor de ganancia seguido de los coeficientes LPC.
   - Luego, se calcula el número de filas (`nrow`) dividiendo el número total de valores en el archivo LPC por el número de columnas.
-    - FALTAN COSAS
+    - `X2X + fa` : convierte el archivo `$base.lp` a ASCII
+    - `wc -l` : cuenta el número de líneas
+    - Dividimoes entre `ncol` para obtener las filas
+
   - Finalmente, se construye el archivo *fmatrix* colocando `nrow` y `ncol` al principio, seguidos de los datos LPC.
 
   * ¿Por qué es más conveniente el formato *fmatrix* que el SPTK?
@@ -60,9 +63,19 @@ ejercicios indicados.
 
 - Escriba el *pipeline* principal usado para calcular los coeficientes cepstrales de predicción lineal
   (LPCC) en su fichero <code>scripts/wav2lpcc.sh</code>:
+  
+  ```bash
+  sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WINDOW -l 240 -L 240 |
+	$LPC -l 240 -m $lpc_order |
+   $LPCC -m $lpc_order -M $lpc2c_order > $base.cep || exit 1
+  ```
 
 - Escriba el *pipeline* principal usado para calcular los coeficientes cepstrales en escala Mel (MFCC) en su
   fichero <code>scripts/wav2mfcc.sh</code>:
+  ```bash
+  sox $inputfile -t raw -e signed -b 16 - | $X2X +sf | $FRAME -l 240 -p 80 | $WINDOW -l 240 -L 240 |
+	$MFCC -s $freq_order -l 180 -m $mfcc_order -n $melfilter_order > $base.mfc || exit 1
+  ```
 
 ### Extracción de características.
 
