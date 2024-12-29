@@ -158,7 +158,7 @@ Complete el código necesario para realizar reconociminto del locutor y optimice
 | Error rate (1st try) (LP:8, MFCC: 8 13 24)  |10.96%|0.51%|1.4%|
 | Error rate (2nd try) (LP: 16, MFCC: 8 15 26) |10.96%|0.76%|1.4%|
 
-DATA
+DATA (28 noche)
 | Class Err | nerr | ntot | error_rate |
 |-----------|:----:|:----:|:----------:|
 | LP        |  86  | 785  |   10.96%   |
@@ -171,6 +171,33 @@ DATA
 | LPCC      | 15.7424866257925 |    $$\frac{79}{250}=0.3160$$   |     $$\frac{16}{1000}=0.0160$$     |     46      |
 | MFCC      | -38.1504078365051 |    $$\frac{72}{250}=0.2880$$   |     $$\frac{19}{1000}=0.0190$$      |     45.9      |
 
+DATA (29 nov 1r intento)
+
+| Class Err | nerr | ntot | error_rate |
+|-----------|:----:|:----:|:----------:|
+| LP        |  66  | 785  |   8.41%   |
+| LPCC      |   5  | 785  |    0.64%   |
+| MFCC      |   12  | 785  |    1.53%   |
+
+| verifyerr | THR  | Missed | FalseAlarm | CostDetection |
+|-----------|:----:|:------:|:----------:|:-------------:|
+| LP        | -6.55487232490078 |   $$\frac{178}{250}=0.7120$$   |     $$\frac{13}{1000}=0.0130$$      |     82.9      |
+| LPCC      | 15.7424866257925 |    $$\frac{79}{250}=0.3160$$   |     $$\frac{16}{1000}=0.0160$$     |     46      |
+| MFCC      | -38.1504078365051 |    $$\frac{72}{250}=0.2880$$   |     $$\frac{19}{1000}=0.0190$$      |     45.9      |
+
+DATA (29 nov 2o intento)
+
+| Class Err | nerr | ntot | error_rate |
+|-----------|:----:|:----:|:----------:|
+| LP        |  68  | 785  |   8.66%   |
+| LPCC      |   5  | 785  |    0.64%   |
+| MFCC      |   12  | 785  |    1.53%   |
+
+| verifyerr | THR  | Missed | FalseAlarm | CostDetection |
+|-----------|:----:|:------:|:----------:|:-------------:|
+| LP        | 0.0735498850825077 |   $$\frac{59}{250}=0.2360$$   |     $$\frac{16}{1000}=0.0160$$      |     38.0      |
+| LPCC      | -0.474063685219194 |    $$\frac{3}{250}=0.3160$$   |     $$\frac{2}{1000}=0.0160$$     |     3      |
+| MFCC      | -38.1504078365051 |    $$\frac{6}{250}=0.0240$$   |     $$\frac{10}{1000}=0.0100$$      |     11.4      |
 ### Verificación del locutor.
 
 Complete el código necesario para realizar verificación del locutor y optimice sus parámetros.
