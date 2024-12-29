@@ -134,7 +134,7 @@ Nota: puede encontrar el código necesario a partir de la [línea 131 de run_spk
   de la página 20 del enunciado puede servirle de referencia del resultado deseado). Analice la capacidad
   del modelado GMM para diferenciar las señales de uno y otro.
 
-  ![GMM Comparison for SES007 and SES107](./plot_img/4gmm.png)
+  Para realizar los plots primer hemos ejecutado lo siguiente para ver como quedan con el SES007 y SES107 (nuestro puesto de laboratorio si no nos equivocamos es el 7):
   
   ```bash
   plot_gmm_feat -g purple -f purple  work/gmm/mfcc/SES007.gmm work/mfcc/BLOCK00/SES007/SA007S* &  
@@ -145,6 +145,14 @@ Nota: puede encontrar el código necesario a partir de la [línea 131 de run_spk
   
   plot_gmm_feat -g blue -f purple  work/gmm/mfcc/SES107.gmm work/mfcc/BLOCK00/SES007/SA007S* &
   ```
+
+  Pero después, como se nos indicaba en la práctica hemos decidido hacer una "version" del [plot_gmm_feat.py](./scripts/plot_gmm_feat.py) llamada [plot_4gmm.py](./scripts/plot_4gmm.py) en la cual hemos adaptado el uso de la funcion `plotGMM(args)`y los argumentos por terminal tal que se ejecuta lo siguiente:
+  ```bash
+  python3 ./scripts/plot_4gmm.py -g purple -f blue  work/gmm/mfcc/SES007.gmm work/gmm/mfcc/SES107.gmm
+  ```
+  Es decir, le proporcionamos los path de los modelos/poblaciones a comparar y crea unos subplots como los de la página 20 de la [guía de la práctica](p4_speaker.pdf). Puede ver la imagen resultante de la orden por comando anterior aquí adjuntada.
+
+  ![GMM Comparison for SES007 and SES107](./plot_img/4gmm.png)
 
 ### Reconocimiento del locutor.
 
@@ -158,20 +166,16 @@ Complete el código necesario para realizar reconociminto del locutor y optimice
 | Error rate (1st try) (LP:8, MFCC: 8 13 24)  |10.96%|0.51%|1.4%|
 | Error rate (2nd try) (LP: 16, MFCC: 8 15 26) |10.96%|0.76%|1.4%|
 
-DATA (28 noche)
+(28 noche)
 | Class Err | nerr | ntot | error_rate |
 |-----------|:----:|:----:|:----------:|
 | LP        |  86  | 785  |   10.96%   |
 | LPCC      |   4  | 785  |    0.51%   |
 | MFCC      |   11  | 785  |    1.40%   |
 
-| verifyerr | THR  | Missed | FalseAlarm | CostDetection |
-|-----------|:----:|:------:|:----------:|:-------------:|
-| LP        | -6.55487232490078 |   $$\frac{178}{250}=0.7120$$   |     $$\frac{13}{1000}=0.0130$$      |     82.9      |
-| LPCC      | 15.7424866257925 |    $$\frac{79}{250}=0.3160$$   |     $$\frac{16}{1000}=0.0160$$     |     46      |
-| MFCC      | -38.1504078365051 |    $$\frac{72}{250}=0.2880$$   |     $$\frac{19}{1000}=0.0190$$      |     45.9      |
 
-DATA (29 nov 1r intento)
+
+(29 nov 1r intento)
 
 | Class Err | nerr | ntot | error_rate |
 |-----------|:----:|:----:|:----------:|
@@ -179,13 +183,7 @@ DATA (29 nov 1r intento)
 | LPCC      |   5  | 785  |    0.64%   |
 | MFCC      |   12  | 785  |    1.53%   |
 
-| verifyerr | THR  | Missed | FalseAlarm | CostDetection |
-|-----------|:----:|:------:|:----------:|:-------------:|
-| LP        | -6.55487232490078 |   $$\frac{178}{250}=0.7120$$   |     $$\frac{13}{1000}=0.0130$$      |     82.9      |
-| LPCC      | 15.7424866257925 |    $$\frac{79}{250}=0.3160$$   |     $$\frac{16}{1000}=0.0160$$     |     46      |
-| MFCC      | -38.1504078365051 |    $$\frac{72}{250}=0.2880$$   |     $$\frac{19}{1000}=0.0190$$      |     45.9      |
-
-DATA (29 nov 2o intento)
+(29 nov 2o intento)
 
 | Class Err | nerr | ntot | error_rate |
 |-----------|:----:|:----:|:----------:|
@@ -193,11 +191,7 @@ DATA (29 nov 2o intento)
 | LPCC      |   5  | 785  |    0.64%   |
 | MFCC      |   12  | 785  |    1.53%   |
 
-| verifyerr | THR  | Missed | FalseAlarm | CostDetection |
-|-----------|:----:|:------:|:----------:|:-------------:|
-| LP        | 0.0735498850825077 |   $$\frac{59}{250}=0.2360$$   |     $$\frac{16}{1000}=0.0160$$      |     38.0      |
-| LPCC      | -0.474063685219194 |    $$\frac{3}{250}=0.3160$$   |     $$\frac{2}{1000}=0.0160$$     |     3      |
-| MFCC      | -38.1504078365051 |    $$\frac{6}{250}=0.0240$$   |     $$\frac{10}{1000}=0.0100$$      |     11.4      |
+
 ### Verificación del locutor.
 
 Complete el código necesario para realizar verificación del locutor y optimice sus parámetros.
@@ -206,7 +200,27 @@ Complete el código necesario para realizar verificación del locutor y optimice
   de verificación de SPEECON. La tabla debe incluir el umbral óptimo, el número de falsas alarmas y de
   pérdidas, y el score obtenido usando la parametrización que mejor resultado le hubiera dado en la tarea
   de reconocimiento.
+
+  28 diciembre:
+  | verifyerr | THR  | Missed | FalseAlarm | CostDetection |
+  |-----------|:----:|:------:|:----------:|:-------------:|
+  | LP        | -6.55487232490078 |   $$\frac{178}{250}=0.7120$$   |     $$\frac{13}{1000}=0.0130$$      |     82.9      |
+  | LPCC      | 15.7424866257925 |    $$\frac{79}{250}=0.3160$$   |     $$\frac{16}{1000}=0.0160$$     |     46      |
+  | MFCC      | -38.1504078365051 |    $$\frac{72}{250}=0.2880$$   |     $$\frac{19}{1000}=0.0190$$      |     45.9      |
  
+  29 diciembre (1r intento)
+  | verifyerr | THR  | Missed | FalseAlarm | CostDetection |
+  |-----------|:----:|:------:|:----------:|:-------------:|
+  | LP        | -6.55487232490078 |   $$\frac{178}{250}=0.7120$$   |     $$\frac{13}{1000}=0.0130$$      |     82.9      |
+  | LPCC      | 15.7424866257925 |    $$\frac{79}{250}=0.3160$$   |     $$\frac{16}{1000}=0.0160$$     |     46      |
+  | MFCC      | -38.1504078365051 |    $$\frac{72}{250}=0.2880$$   |     $$\frac{19}{1000}=0.0190$$      |     45.9      |
+
+  29 diciembre (2o intento)
+  | verifyerr | THR  | Missed | FalseAlarm | CostDetection |
+  |-----------|:----:|:------:|:----------:|:-------------:|
+  | LP        | 0.0735498850825077 |   $$\frac{59}{250}=0.2360$$   |     $$\frac{16}{1000}=0.0160$$      |     38.0      |
+  | LPCC      | -0.474063685219194 |    $$\frac{3}{250}=0.3160$$   |     $$\frac{2}{1000}=0.0160$$     |     3      |
+  | MFCC      | -38.1504078365051 |    $$\frac{6}{250}=0.0240$$   |     $$\frac{10}{1000}=0.0100$$      |     11.4      |
 ### Test final
 
 - Adjunte, en el repositorio de la práctica, los ficheros `class_test.log` y `verif_test.log` 
