@@ -237,8 +237,9 @@ for cmd in $*; do
        echo $EXEC && $EXEC | tee $TEMP_VERIF || exit 1
        # procesa el archivo $TEMP_VERIF, F[0] = primera columna, F[1] = segunda, etc
        # Compara la tercera columna con un THR  y si es mayor pone 1
+       # Nos basamo en el ejemplo de la guía de la práctica (p.24)
        perl -ane 'print "$F[0]\t$F[1]\t"; 
-        if ($F[2] > -0.474063685219194) {print "1\n"}
+        if ($F[2] > -0.847554375439504) {print "1\n"}
         else {print "0\n"}' $TEMP_VERIF > $FINAL_VERIF
    
    # If the command is not recognize, check if it is the name

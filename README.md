@@ -254,6 +254,8 @@ Complete el código necesario para realizar verificación del locutor y optimice
 - Adjunte, en el repositorio de la práctica, los ficheros `class_test.log` y `verif_test.log` 
   correspondientes a la evaluación *ciega* final.
 
+  Para comprobar el funciomiento de `finalclass`y `finalverif` vamos evaluarlo con el **LPCC**, que a simple vista, nos parece le que tiene mejor rendimiento. Puede encontrar el los siguientes fichero pulsando en ellos: [`class_test.log`](./work/class_test.log) y [`verif_test.log`](./work/verif_test.log)
+
 ### Trabajo de ampliación.
 
 - Recuerde enviar a Atenea un fichero en formato zip o tgz con la memoria (en formato PDF) con el trabajo 
