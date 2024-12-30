@@ -233,7 +233,7 @@ Complete el código necesario para realizar verificación del locutor y optimice
   |-----------|:----:|:------:|:----------:|:-------------:|
   | LP        | 0.0735498850825077 |   $$\frac{59}{250}=0.2360$$   |     $$\frac{16}{1000}=0.0160$$      |     38.0      |
   | LPCC      | -0.474063685219194 |    $$\frac{3}{250}=0.3160$$   |     $$\frac{2}{1000}=0.0160$$     |     3      |
-  | MFCC      | -38.1504078365051 |    $$\frac{6}{250}=0.0240$$   |     $$\frac{10}{1000}=0.0100$$      |     11.4      |
+  | MFCC      | 0.0543597862224042 |    $$\frac{6}{250}=0.0240$$   |     $$\frac{10}{1000}=0.0100$$      |     11.4      |
 ### Test final
 
 - Adjunte, en el repositorio de la práctica, los ficheros `class_test.log` y `verif_test.log` 
