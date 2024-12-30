@@ -204,6 +204,14 @@ Complete el código necesario para realizar reconociminto del locutor y optimice
 | LPCC      |   5  | 785  |    0.64%   |
 | MFCC      |   12  | 785  |    1.53%   |
 
+30 diciembre DEFINITIVO
+
+| Class Err | nerr | ntot | error_rate |
+|-----------|:----:|:----:|:----------:|
+| LP        |  63  | 785  |   8.03%   |
+| LPCC      |   7  | 785  |    0.89%   |
+| MFCC      |   12  | 785  |    1.27%   |
+
 
 ### Verificación del locutor.
 
@@ -234,6 +242,13 @@ Complete el código necesario para realizar verificación del locutor y optimice
   | LP        | 0.0735498850825077 |   $$\frac{59}{250}=0.2360$$   |     $$\frac{16}{1000}=0.0160$$      |     38.0      |
   | LPCC      | -0.474063685219194 |    $$\frac{3}{250}=0.3160$$   |     $$\frac{2}{1000}=0.0160$$     |     3      |
   | MFCC      | 0.0543597862224042 |    $$\frac{6}{250}=0.0240$$   |     $$\frac{10}{1000}=0.0100$$      |     11.4      |
+
+  30 diciembre DEFINITIVO
+  | verifyerr | THR  | Missed | FalseAlarm | CostDetection |
+  |-----------|:----:|:------:|:----------:|:-------------:|
+  | LP        | 0.132176482789218 |   $$\frac{48}{250}=0.1920$$   |     $$\frac{15}{1000}=0.0150$$      |     32.7      |
+  | LPCC      | -0.847554375439504 |    $$\frac{2}{250}=0.0080$$   |     $$\frac{2}{1000}=0.0020$$     |     2.6      |
+  | MFCC      | 0.114814823327203 |    $$\frac{14}{250}=0-0560$$   |     $$\frac{1}{1000}=0.0010$$      |     6.5      |
 ### Test final
 
 - Adjunte, en el repositorio de la práctica, los ficheros `class_test.log` y `verif_test.log` 
