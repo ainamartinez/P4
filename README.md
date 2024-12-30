@@ -174,43 +174,22 @@ Complete el código necesario para realizar reconociminto del locutor y optimice
 - Inserte una tabla con la tasa de error obtenida en el reconocimiento de los locutores de la base de datos
   SPEECON usando su mejor sistema de reconocimiento para los parámetros LP, LPCC y MFCC.
 
-|A ver como da esto| LP   | LPCC | MFCC |
-|------------------------|:----:|:----:|:----:|
-| Error rate (1st try) (LP:8, MFCC: 8 13 24)  |10.96%|0.51%|1.4%|
-| Error rate (2nd try) (LP: 16, MFCC: 8 15 26) |10.96%|0.76%|1.4%|
+  Hemos ajustado diversos parámetros (por ejemplo incialización con VQ) y visto los resultados:
 
-(28 noche)
-| Class Err | nerr | ntot | error_rate |
-|-----------|:----:|:----:|:----------:|
-| LP        |  86  | 785  |   10.96%   |
-| LPCC      |   4  | 785  |    0.51%   |
-| MFCC      |   11  | 785  |    1.40%   |
+  |Intentos| LP   | LPCC | MFCC |
+  |------------------------|:----:|:----:|:----:|
+  | Error rate |10.96%|0.76%|1.4%|
+  | Error rate |10.96%|0.51%|1.4%|
+  | Error rate |8.41%|0.64%|1.53%|
+  | Error rate |8.66%|0.64%|1.53%|
 
+  Finalmente, hemos llegado al siguiente resultado:
 
-
-(29 nov 1r intento)
-
-| Class Err | nerr | ntot | error_rate |
-|-----------|:----:|:----:|:----------:|
-| LP        |  66  | 785  |   8.41%   |
-| LPCC      |   5  | 785  |    0.64%   |
-| MFCC      |   12  | 785  |    1.53%   |
-
-(29 nov 2o intento)
-
-| Class Err | nerr | ntot | error_rate |
-|-----------|:----:|:----:|:----------:|
-| LP        |  68  | 785  |   8.66%   |
-| LPCC      |   5  | 785  |    0.64%   |
-| MFCC      |   12  | 785  |    1.53%   |
-
-30 diciembre DEFINITIVO
-
-| Class Err | nerr | ntot | error_rate |
-|-----------|:----:|:----:|:----------:|
-| LP        |  63  | 785  |   8.03%   |
-| LPCC      |   7  | 785  |    0.89%   |
-| MFCC      |   12  | 785  |    1.27%   |
+  | Class Err | nerr | ntot | error_rate |
+  |-----------|:----:|:----:|:----------:|
+  | LP        |  63  | 785  |   8.03%   |
+  | LPCC      |   7  | 785  |    0.89%   |
+  | MFCC      |   12  | 785  |    1.27%   |
 
 
 ### Verificación del locutor.
@@ -221,29 +200,16 @@ Complete el código necesario para realizar verificación del locutor y optimice
   de verificación de SPEECON. La tabla debe incluir el umbral óptimo, el número de falsas alarmas y de
   pérdidas, y el score obtenido usando la parametrización que mejor resultado le hubiera dado en la tarea
   de reconocimiento.
+  
+  De la misma manera que en el reconocimeinto del locutor hemos optimizado diversos parámetros viendo este progreso:
 
-  28 diciembre:
-  | verifyerr | THR  | Missed | FalseAlarm | CostDetection |
-  |-----------|:----:|:------:|:----------:|:-------------:|
-  | LP        | -6.55487232490078 |   $$\frac{178}{250}=0.7120$$   |     $$\frac{13}{1000}=0.0130$$      |     82.9      |
-  | LPCC      | 15.7424866257925 |    $$\frac{79}{250}=0.3160$$   |     $$\frac{16}{1000}=0.0160$$     |     46      |
-  | MFCC      | -38.1504078365051 |    $$\frac{72}{250}=0.2880$$   |     $$\frac{19}{1000}=0.0190$$      |     45.9      |
- 
-  29 diciembre (1r intento)
-  | verifyerr | THR  | Missed | FalseAlarm | CostDetection |
-  |-----------|:----:|:------:|:----------:|:-------------:|
-  | LP        | -6.55487232490078 |   $$\frac{178}{250}=0.7120$$   |     $$\frac{13}{1000}=0.0130$$      |     82.9      |
-  | LPCC      | 15.7424866257925 |    $$\frac{79}{250}=0.3160$$   |     $$\frac{16}{1000}=0.0160$$     |     46      |
-  | MFCC      | -38.1504078365051 |    $$\frac{72}{250}=0.2880$$   |     $$\frac{19}{1000}=0.0190$$      |     45.9      |
+  |Intentos| LP   | LPCC | MFCC |
+  |------------------------|:----:|:----:|:----:|
+  |Cost Detection |82.9|46|45.9|
+  |Cost Detection |38|3|11.4|
 
-  29 diciembre (2o intento)
-  | verifyerr | THR  | Missed | FalseAlarm | CostDetection |
-  |-----------|:----:|:------:|:----------:|:-------------:|
-  | LP        | 0.0735498850825077 |   $$\frac{59}{250}=0.2360$$   |     $$\frac{16}{1000}=0.0160$$      |     38.0      |
-  | LPCC      | -0.474063685219194 |    $$\frac{3}{250}=0.3160$$   |     $$\frac{2}{1000}=0.0160$$     |     3      |
-  | MFCC      | 0.0543597862224042 |    $$\frac{6}{250}=0.0240$$   |     $$\frac{10}{1000}=0.0100$$      |     11.4      |
-
-  30 diciembre DEFINITIVO
+  Finalmente hemos llegado a este rendimiento:
+  
   | verifyerr | THR  | Missed | FalseAlarm | CostDetection |
   |-----------|:----:|:------:|:----------:|:-------------:|
   | LP        | 0.132176482789218 |   $$\frac{48}{250}=0.1920$$   |     $$\frac{15}{1000}=0.0150$$      |     32.7      |
